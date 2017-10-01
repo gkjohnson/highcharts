@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <script type="text/javascript" src="./code/highcharts.src.js"></script>
+        <script type="text/javascript" src="./code/highcharts-map.src.js"></script>
+        <script type="text/javascript" src="./code/modules/boost.src.js"></script>
+    </head>
+    <body>
+
+        <div id="chart"></div>
+        
+        <script type="text/javascript">
+            const genData = d => {
+                const arr = []
+                for(let i = 0; i < d; i ++) arr.push({
+                    y: Math.random() * i,
+                    x: i
+                })
+                return arr
+            }
+
+            const dataAmt = Math.pow(10, 6)
+            const chart = Highcharts.chart(`chart`, {
+                boost: {
+                    seriesThreshold: 1
+                },
+                series: [{
+                    type: 'line',
+                    turboThreshold: 0,
+                    marker: { enabled: false },
+                    data: genData(dataAmt)
+                }]
+            });
+
+            console.log(`Drawing ${dataAmt} data points`)
+
+            setTimeout(() => {
+                // This redraw takes ~800ms sometimes
+                console.time('redraw')
+                chart.redraw()
+                console.timeEnd('redraw')  
+            }, 500)
+        </script>
+    </body>
+</html>
